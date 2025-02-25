@@ -7,6 +7,20 @@ import "leaflet/dist/leaflet.css";
 function KMLLayer() {
     const map = useMap();
 
+    const getLocation = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/location')
+            const dataJson = response.json()
+            console.log(dataJson)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getLocation()
+    }, [])
+
     useEffect(() => {
         fetch("/map.kml") 
             .then((response) => response.text())

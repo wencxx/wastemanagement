@@ -28,6 +28,7 @@ function Sidebar() {
                     <NavItem to='/admin/schedules' icon={Calendar} label='Schedules' />
                     <NavItem to='/admin/track' icon={MapPin} label='Track' />
                     <NavItem to='/admin/data-lists' icon={Users} label='Data Lists' />
+                    <NavItem to='/admin/purok-lists' icon={Users} label='Purok Lists' />
                 </ul>
             </div>
         </div>

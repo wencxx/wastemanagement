@@ -1,5 +1,6 @@
 import { Send, Plus } from "lucide-react";
 import { useState } from "react";
+import ResidentsLists from "../components/residents-lists";
 
 function Dashboard() {
     const [name, setName] = useState("");
@@ -55,17 +56,7 @@ function Dashboard() {
                         </span>
                     </button>
                 </form>
-                <div className="w-2/5 h-[80dvh] border border-gray-300 bg-white shadow rounded-lg p-5 flex flex-col gap-y-10">
-                    <div className="flex justify-between items-center">
-                        <h3 className="text-xl font-semibold tracking-wide text-slate-800">Residents Lists</h3>
-                        <select className="border border-gray-300 rounded p-2">
-                            <option>Choose Location</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
-                        </select>
-                    </div>
-                    <h4 className="text-gray-400 text-center text-xl">Select a location to view residents</h4>
-                </div>
+                <ResidentsLists />
             </div>
         </div>
      );
