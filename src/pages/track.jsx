@@ -7,10 +7,12 @@ import "leaflet/dist/leaflet.css";
 function KMLLayer() {
     const map = useMap();
 
+    const [currentLocation, setCurrentLocation] = useState({ lat: '14.8573', lng: '14.8573' })
+
     const getLocation = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/location')
-            const dataJson = response.json()
+            const dataJson = await response.json()
             console.log(dataJson)
         } catch (error) {
             console.log(error)
@@ -50,7 +52,7 @@ function Dashboard() {
                     <h3 className="text-xl font-semibold tracking-wide text-slate-800">Collection Map</h3>
                     <div className="w-full h-full bg-gray-200 rounded-lg map">
                         <MapContainer
-                            center={[14.8573, 120.8278]}
+                            center={[currentLocation.lat, currentLocation.lng]}
                             zoom={13}
                             style={{ height: "100%", width: "100%" }}
                         >
