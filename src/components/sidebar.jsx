@@ -21,14 +21,14 @@ function Sidebar() {
     }
     return ( 
         <div className="w-1/6 h-screen bg-white border border-gray-200">
-            <div className="h-24 border-b border-gray-200 flex items-center px-5">
+            <div className="h-[9dvh] border-b border-gray-200 flex items-center px-5">
                 <h1 className="font-bold text-xl text-neutral-600">Waste Management</h1>
             </div>
-            <div className="h-24 border-b border-gray-200 flex items-center gap-x-5 px-10">
+            <div className="h-[9dvh] border-b border-gray-200 flex items-center gap-x-5 px-10">
                 <User size={31} className='' />
                 <h2 className="font-bold text-xl text-neutral-600">Admin</h2>
             </div>
-            <div className='h-5/7 border-b border-gray-200'>
+            <div className='h-[73dvh] border-b border-gray-200'>
                 <ul className='flex flex-col p-5 gap-y-1'>
                     <NavItem to='/admin' end icon={MessageSquare} label='Message' />
                     <NavItem to='/admin/schedules' icon={Calendar} label='Schedules' />
@@ -37,8 +37,11 @@ function Sidebar() {
                     <NavItem to='/admin/purok-lists' icon={MapPinned} label='Purok Lists' />
                 </ul>
             </div>
-            <div className='flex items-center justify-center'>
-                <button onClick={handleLogout}>Logout</button>
+            <div className='flex items-center justify-center text-red-500 h-[8dvh]'>
+                <button onClick={handleLogout} className='cursor-pointer flex items-center gap-x-2'>
+                    <LogOut />
+                    <span>Logout</span>
+                </button>
             </div>
         </div>
      );
