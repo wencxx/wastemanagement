@@ -1,5 +1,5 @@
-import { User, MessageSquare, Calendar, MapPin, Users, MapPinned } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import { User, MessageSquare, Calendar, MapPin, Users, MapPinned, LogOut } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function NavItem({ to, end, icon: Icon, label }) {
     return (
@@ -13,6 +13,12 @@ function NavItem({ to, end, icon: Icon, label }) {
 }
 
 function Sidebar() {
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        navigate('/')
+    }
     return ( 
         <div className="w-1/6 h-screen bg-white border border-gray-200">
             <div className="h-24 border-b border-gray-200 flex items-center px-5">
@@ -30,6 +36,9 @@ function Sidebar() {
                     <NavItem to='/admin/data-lists' icon={Users} label='Data Lists' />
                     <NavItem to='/admin/purok-lists' icon={MapPinned} label='Purok Lists' />
                 </ul>
+            </div>
+            <div className='flex items-center justify-center'>
+                <button onClick={handleLogout}>Logout</button>
             </div>
         </div>
      );
