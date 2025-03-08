@@ -8,10 +8,10 @@ function Dashboard() {
 
   const getPuroks = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/purok`);
+      const response = await fetch(`https://wastemanagement-server.vercel.app/api/purok`);
       if (response.ok) {
         const data = await response.json();
-        setPuroks(data);
+        setPuroks(Array.isArray(data) ? data : []);
       } else {
         console.error("Failed to fetch puroks");
       }
@@ -46,7 +46,7 @@ function Dashboard() {
             <option value="" disabled>
               Choose Location
             </option>
-            {puroks.map((purok, index) => (
+            {puroks.length > 0 && puroks.map((purok, index) => (
               <option key={index} value={purok.name}>
                 {purok.name}
               </option>

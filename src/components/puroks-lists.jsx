@@ -7,7 +7,7 @@ function PuroksLists() {
     const getPuroks = async (e) => {
         setSelectedLocation(true);
         try {
-            const response = await fetch(`http://localhost:5000/api/purok`);
+            const response = await fetch(`https://wastemanagement-server.vercel.app/api/purok`);
             if (response.ok) {
                 const data = await response.json();
                 setPuroks(data);

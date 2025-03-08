@@ -12,7 +12,7 @@ function Dashboard() {
         const purokData = { name, lat, lng };
         try {
             setAdding(true);
-            const response = await fetch("http://localhost:5000/api/purok", {
+            const response = await fetch("https://wastemanagement-server.vercel.app/api/purok", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

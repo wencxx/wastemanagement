@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import AddSchedule from "../components/add-schedule-modal";
@@ -28,7 +28,7 @@ function Dashboard() {
 
   const getSchedules = async (e) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/schedules`);
+      const response = await axios.get(`https://wastemanagement-server.vercel.app/api/schedules`);
       if (response.data === 'No schedules found') return
   
       setSchedules(response.data);

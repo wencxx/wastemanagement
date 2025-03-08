@@ -8,10 +8,10 @@ function ResidentsLists({ selectedLoc }) {
   const getPuroks = async (e) => {
     setSelectedLocation(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/purok`);
+      const response = await fetch(`https://wastemanagement-server.vercel.app/api/purok`);
       if (response.ok) {
         const data = await response.json();
-        setPuroks(data);
+        setPuroks(Array.isArray(data) ? data : []);
         console.log(data);
       } else {
         console.error("Failed to fetch puroks");
@@ -30,7 +30,7 @@ function ResidentsLists({ selectedLoc }) {
     setSelectedLocation(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/residents?location=${value}`
+        `https://wastemanagement-server.vercel.app/api/residents?location=${value}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -62,7 +62,7 @@ function ResidentsLists({ selectedLoc }) {
             value=''
           >
             <option value='' disabled>Choose Location</option>
-            {puroks.map((purok, index) => (
+            {puroks.length > 0 && puroks.map((purok, index) => (
                 <option key={index}>{purok.name}</option>
             ))}
           </select>

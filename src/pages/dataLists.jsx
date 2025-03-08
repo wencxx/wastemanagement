@@ -10,7 +10,7 @@ function Dashboard() {
   const addResident = async () => {
     const residentData = { name, phone, location };
     try {
-      const response = await fetch("http://localhost:5000/api/residents", {
+      const response = await fetch("https://wastemanagement-server.vercel.app/api/residents", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -23,17 +23,22 @@ function Login() {
     });
   };
 
+  const [logginIn, setLoggingIn] = useState(false)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoggingIn(true)
       const response = await axios.post(
-        "http://localhost:5000/api/login",
+        "https://wastemanagement-server.vercel.app/api/login",
         userDetails
       );
       localStorage.setItem("token", response.data.token);
       navigate("/admin");
     } catch (err) {
       setError("Login failed. Please check your credentials.");
+    } finally {
+      setLoggingIn(false)
     }
   };
 
@@ -77,9 +82,10 @@ function Login() {
         </div>
         <button
           type="submit"
-          className="bg-slate-900 text-white py-1 rounded text-lg mt-2"
+          className={`bg-slate-900 text-white py-1 rounded text-lg mt-2 ${logginIn && 'animate-pulse'}`}
+          disabled={logginIn}
         >
-          Login
+          {logginIn ? 'Logging in...' : 'Login'}
         </button>
         <Link to="" className="hover:underline">
           Forgot password?

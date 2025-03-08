@@ -35,7 +35,7 @@ function Dashboard() {
 
   const getLocation = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/location");
+      const res = await axios.get("https://wastemanagement-server.vercel.app/api/location");
       console.log(res.data)
       if (res.data !== "No location set") {
         setCurrentLocation({ ...res.data });
