@@ -1,42 +1,18 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
-import L from "leaflet";
-import "leaflet-kml";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-
-function KMLLayer() {
-  const map = useMap();
-
-  useEffect(() => {
-    fetch("/map.kml")
-      .then((response) => response.text())
-      .then((kmlText) => {
-        const parser = new DOMParser();
-        const kml = parser.parseFromString(kmlText, "text/xml");
-        const kmlLayer = new L.KML(kml);
-
-        if (map && kmlLayer) {
-          map.addLayer(kmlLayer);
-          map.fitBounds(kmlLayer.getBounds());
-        }
-      })
-      .catch((error) => console.error("Error loading KML:", error));
-  }, [map]);
-
-  return null;
-}
 
 function Dashboard() {
   const [currentLocation, setCurrentLocation] = useState({
-    lat: "14.8573",
-    lng: "14.8573",
+    lat: "10.6765",
+    lng: "122.9510",
   });
 
   const getLocation = async () => {
     try {
       const res = await axios.get("https://wastemanagement-server.vercel.app/api/location");
-      console.log(res.data)
+      console.log(res.data);
       if (res.data !== "No location set") {
         setCurrentLocation({ ...res.data });
       }
@@ -59,7 +35,6 @@ function Dashboard() {
         Track Collection
       </h1>
       <div className="flex gap-10">
-        {/* Map Section */}
         <div className="w-3/5 border border-gray-300 bg-white shadow rounded-lg h-[80dvh] flex flex-col gap-y-8 p-5">
           <h3 className="text-xl font-semibold tracking-wide text-slate-800">
             Collection Map
@@ -67,11 +42,16 @@ function Dashboard() {
           <div className="w-full h-full bg-gray-200 rounded-lg map">
             <MapContainer
               center={[currentLocation.lat, currentLocation.lng]}
-              zoom={13}
+              zoom={20}
               style={{ height: "100%", width: "100%" }}
+              key={`${currentLocation.lat}-${currentLocation.lng}`} 
             >
-              <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
-              <KMLLayer />
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              <Marker position={[currentLocation.lat, currentLocation.lng]}>
+                <Popup>
+                  Current Location: {currentLocation.lat}, {currentLocation.lng}
+                </Popup>
+              </Marker>
             </MapContainer>
           </div>
         </div>
