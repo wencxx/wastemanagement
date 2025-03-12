@@ -1,6 +1,7 @@
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { connection } from "../config/getConnection";
 
 function Login() {
   const [userDetails, setUserDetails] = useState({
@@ -30,7 +31,7 @@ function Login() {
     try {
       setLoggingIn(true)
       const response = await axios.post(
-        "https://wastemanagement-server.vercel.app/api/login",
+        `${connection()}/api/login`,
         userDetails
       );
       localStorage.setItem("token", response.data.token);

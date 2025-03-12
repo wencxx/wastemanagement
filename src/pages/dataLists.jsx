@@ -1,23 +1,28 @@
 import { Send, Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResidentsLists from "../components/residents-lists";
+import { connection } from "../config/getConnection";
+import axios from "axios";
 
 function Dashboard() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
+  const [puroks, setPuroks] = useState([]);
 
   const addResident = async () => {
     const residentData = { name, phone, location };
     try {
-      const response = await fetch("https://wastemanagement-server.vercel.app/api/residents", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(residentData),
-      });
-      if (response.ok) {
+      const response = await axios.post(
+        `${connection()}/api/residents`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(residentData),
+        }
+      );
+      if (response.data === 'Added new resident') {
         console.log("Resident added successfully");
       } else {
         console.error("Failed to add resident");
@@ -26,6 +31,25 @@ function Dashboard() {
       console.error("Error:", error);
     }
   };
+
+  const getPuroks = async (e) => {
+    try {
+      const response = await axios.get(`${connection()}/api/purok`);
+      console.log("Puroks response:", response.data); 
+      if (Array.isArray(response.data)) {
+        setPuroks(response.data);
+      } else {
+        console.error("Unexpected response format", response.data);
+        setPuroks([]);
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
+
+  useEffect(() => {
+    getPuroks();
+  }, []);
 
   return (
     <div className="w-full h-screen p-15 space-y-10">
@@ -77,9 +101,10 @@ function Dashboard() {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             >
-              <option>Choose Location</option>
-              <option>Option 2</option>
-              <option>Option 3</option>
+              <option disabled value=''>Choose Location</option>
+              {puroks.length && puroks.map((purok, index) => (
+                  <option key={index}>{purok.name}</option>
+              ))}
             </select>
           </div>
           <button
@@ -87,7 +112,7 @@ function Dashboard() {
             type="submit"
           >
             <Send />
-            <span>Send Message</span>
+            <span>Add Resident</span>
           </button>
         </form>
         <ResidentsLists />

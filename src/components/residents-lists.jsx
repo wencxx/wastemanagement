@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { connection } from "../config/getConnection";
 
 function ResidentsLists({ selectedLoc }) {
   const [residents, setResidents] = useState([]);
@@ -6,9 +7,9 @@ function ResidentsLists({ selectedLoc }) {
   const [puroks, setPuroks] = useState([]);
 
   const getPuroks = async (e) => {
-    setSelectedLocation(true);
+    // setSelectedLocation(true);
     try {
-      const response = await fetch(`https://wastemanagement-server.vercel.app/api/purok`);
+      const response = await fetch(`${connection()}/api/purok`);
       if (response.ok) {
         const data = await response.json();
         setPuroks(Array.isArray(data) ? data : []);
@@ -30,7 +31,7 @@ function ResidentsLists({ selectedLoc }) {
     setSelectedLocation(true);
     try {
       const response = await fetch(
-        `https://wastemanagement-server.vercel.app/api/residents?location=${value}`
+        `${connection()}/api/residents?location=${value}`
       );
       if (response.ok) {
         const data = await response.json();

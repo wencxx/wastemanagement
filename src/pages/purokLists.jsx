@@ -1,6 +1,7 @@
 import { Send, Plus } from "lucide-react";
 import { useState } from "react";
 import PurokLists from "../components/puroks-lists";
+import { connection } from "../config/getConnection";
 
 function Dashboard() {
     const [name, setName] = useState("");
@@ -12,7 +13,7 @@ function Dashboard() {
         const purokData = { name, lat, lng };
         try {
             setAdding(true);
-            const response = await fetch("https://wastemanagement-server.vercel.app/api/purok", {
+            const response = await fetch(`${connection()}/api/purok`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

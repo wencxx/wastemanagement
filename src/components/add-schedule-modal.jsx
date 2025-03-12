@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import axios from "axios";
+import { connection } from "../config/getConnection";
 
 const localizer = momentLocalizer(moment);
 
@@ -15,7 +16,7 @@ function AddSchedule({ setAddSchedule, getSchedules }) {
 
   const getPuroks = async (e) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/purok`);
+      const res = await axios.get(`${connection()}/api/purok`);
       if (res) {
         setPuroks(res.data);
       } else {
@@ -39,7 +40,7 @@ function AddSchedule({ setAddSchedule, getSchedules }) {
     if (start && end && selectedLocation && selectedType) {
       setEmptyDate(false);
       try {
-        const res = await axios.post('http://localhost:5000/api/schedules', {
+        const res = await axios.post(`${connection()}/api/schedules`, {
             purokID: selectedLocation,
             start: selectedSlot.start,
             end: selectedSlot.end,

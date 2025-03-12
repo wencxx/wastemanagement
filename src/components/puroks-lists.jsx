@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { connection } from "../config/getConnection";
 
 function PuroksLists() {
     const [puroks, setPuroks] = useState([]);
@@ -7,11 +8,10 @@ function PuroksLists() {
     const getPuroks = async (e) => {
         setSelectedLocation(true);
         try {
-            const response = await fetch(`https://wastemanagement-server.vercel.app/api/purok`);
+            const response = await fetch(`${connection()}/api/purok`);
             if (response.ok) {
                 const data = await response.json();
                 setPuroks(data);
-                console.log(data)
             } else {
                 console.error("Failed to fetch puroks");
             }
@@ -41,7 +41,7 @@ function PuroksLists() {
                     </div>
                 </div>
             ) ) }
-            { puroks.length == 0  && selectedLocation && <p className="text-center text-gray-400 text-lg">No Puroks found</p> }
+            { !puroks.length  && selectedLocation && <p className="text-center text-gray-400 text-lg">No Puroks found</p> }
         </div>
      );
 }

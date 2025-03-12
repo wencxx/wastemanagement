@@ -1,6 +1,7 @@
 import { Send } from "lucide-react";
 import { useState, useEffect } from "react";
 import ResidentsLists from "../components/residents-lists";
+import { connection } from "../config/getConnection";
 
 function Dashboard() {
   const [puroks, setPuroks] = useState([]);
@@ -8,7 +9,7 @@ function Dashboard() {
 
   const getPuroks = async () => {
     try {
-      const response = await fetch(`https://wastemanagement-server.vercel.app/api/purok`);
+      const response = await fetch(`${connection()}/api/purok`);
       if (response.ok) {
         const data = await response.json();
         setPuroks(Array.isArray(data) ? data : []);

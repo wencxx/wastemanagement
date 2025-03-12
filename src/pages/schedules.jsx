@@ -5,6 +5,7 @@ import AddSchedule from "../components/add-schedule-modal";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import axios from "axios";
+import { connection } from "../config/getConnection";
 
 const localizer = momentLocalizer(moment);
 
@@ -28,7 +29,7 @@ function Dashboard() {
 
   const getSchedules = async (e) => {
     try {
-      const response = await axios.get(`https://wastemanagement-server.vercel.app/api/schedules`);
+      const response = await axios.get(`${connection()}/api/schedules`);
       if (response.data === 'No schedules found') return
   
       setSchedules(response.data);
