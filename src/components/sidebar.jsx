@@ -12,21 +12,22 @@ function NavItem({ to, end, icon: Icon, label }) {
     );
 }
 
-function Sidebar() {
-    const navigate = useNavigate()
+function Sidebar({ isCollapsed }) {
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token')
-        navigate('/')
-    }
+        localStorage.removeItem('token');
+        navigate('/');
+    };
+
     return ( 
-        <div className="w-1/6 h-screen bg-white border border-gray-200">
+        <div className={`h-screen w-80 bg-white border border-gray-200  overflow-hidden duration-300 ${isCollapsed && '!w-0'}`}>
             <div className="h-[9dvh] border-b border-gray-200 flex items-center px-5">
-                <h1 className="font-bold text-xl text-neutral-600">Waste Management</h1>
+                <h1 className={`font-bold text-xl text-neutral-600`}>Waste Management</h1>
             </div>
             <div className="h-[9dvh] border-b border-gray-200 flex items-center gap-x-5 px-10">
                 <User size={31} className='' />
-                <h2 className="font-bold text-xl text-neutral-600">Admin</h2>
+                <h2 className={`font-bold text-xl text-neutral-600`}>Admin</h2>
             </div>
             <div className='h-[73dvh] border-b border-gray-200'>
                 <ul className='flex flex-col p-5 gap-y-1'>

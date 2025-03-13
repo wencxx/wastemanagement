@@ -50,7 +50,7 @@ function Dashboard() {
   })) : []
 
   return (
-    <div className="w-full h-screen p-15 space-y-10">
+    <div className="w-full h-full p-15 pt-0 space-y-10">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold tracking-wide text-slate-800">
           Collection Schedule

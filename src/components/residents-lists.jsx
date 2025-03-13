@@ -26,9 +26,12 @@ function ResidentsLists({ selectedLoc }) {
     getPuroks();
   }, []);
 
+  const [locationSelected, setLocationSelected] = useState('')
+
   const getResidents = async (e) => {
     const value = e ? e.target.value : selectedLoc;
     setSelectedLocation(true);
+    setLocationSelected(value)
     try {
       const response = await fetch(
         `${connection()}/api/residents?location=${value}`
@@ -60,7 +63,7 @@ function ResidentsLists({ selectedLoc }) {
           <select
             className="border border-gray-300 rounded p-2"
             onChange={getResidents}
-            value=''
+            value={locationSelected}
           >
             <option value='' disabled>Choose Location</option>
             {puroks.length > 0 && puroks.map((purok, index) => (
@@ -69,30 +72,32 @@ function ResidentsLists({ selectedLoc }) {
           </select>
         )}
       </div>
-      {!selectedLocation ? (
-        <h4 className="text-gray-400 text-center text-xl">
-          Select a location to view residents
-        </h4>
-      ) : residents.length > 0 ? (
-        residents.map((resident) => (
-          <div
-            key={resident._id}
-            className="flex justify-between items-center border border-gray-300 p-2 rounded"
-          >
-            <div>
-              <h4 className="font-semibold text-slate-800">{resident.name}</h4>
-              <p className="text-gray-400">{resident.phone}</p>
+      <div className="space-y-2">
+        {!selectedLocation ? (
+          <h4 className="text-gray-400 text-center text-xl">
+            Select a location to view residents
+          </h4>
+        ) : residents.length > 0 ? (
+          residents.map((resident) => (
+            <div
+              key={resident._id}
+              className="flex justify-between items-center border border-gray-300 p-2 rounded"
+            >
+              <div>
+                <h4 className="font-semibold text-slate-800">{resident.name}</h4>
+                <p className="text-gray-400">{resident.phone}</p>
+              </div>
+              <div>
+                <button className="bg-red-500 text-white px-3 py-1 rounded">
+                  Delete
+                </button>
+              </div>
             </div>
-            <div>
-              <button className="bg-red-500 text-white px-3 py-1 rounded">
-                Delete
-              </button>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p className="text-center text-gray-400 text-lg">No Residents found</p>
-      )}
+          ))
+        ) : (
+          <p className="text-center text-gray-400 text-lg">No Residents found</p>
+        )}
+      </div>
     </div>
   );
 }
