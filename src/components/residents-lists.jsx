@@ -13,7 +13,6 @@ function ResidentsLists({ selectedLoc }) {
       if (response.ok) {
         const data = await response.json();
         setPuroks(Array.isArray(data) ? data : []);
-        console.log(data);
       } else {
         console.error("Failed to fetch puroks");
       }

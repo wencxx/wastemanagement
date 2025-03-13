@@ -2,17 +2,18 @@ import { Send } from "lucide-react";
 import { useState, useEffect } from "react";
 import ResidentsLists from "../components/residents-lists";
 import { connection } from "../config/getConnection";
+import axios from 'axios'
 
 function Dashboard() {
   const [puroks, setPuroks] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState("");
+  const [message, setMessage] = useState("");
 
   const getPuroks = async () => {
     try {
-      const response = await fetch(`${connection()}/api/purok`);
-      if (response.ok) {
-        const data = await response.json();
-        setPuroks(Array.isArray(data) ? data : []);
+      const res = await axios.get(`${connection()}/api/purok`);
+      if (res.data !== 'No purok found') {
+        setPuroks(res.data);
       } else {
         console.error("Failed to fetch puroks");
       }
@@ -29,16 +30,44 @@ function Dashboard() {
     setSelectedLocation(e.target.value);
   };
 
+  const [success, setSuccess] = useState('')
+  const [err, setErr] = useState('')
+
+  const sendMessage = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await axios.post(`${connection()}/api/send-message`, {
+        location: selectedLocation,
+        message
+      });
+
+      if(res.data === 'Message sent successfully'){
+        setSuccess(res.data)
+      }
+    } catch (error) {
+      setErr(error)
+    } finally {
+      setTimeout(() => {
+        setSuccess('')
+        setErr('')
+      }, 3000)
+      selectedLocation('')
+      setMessage('')
+    }
+  }
+
   return (
     <div className="w-full h-full p-15 pt-0 space-y-10">
       <h1 className="text-3xl font-bold tracking-wide text-slate-800">
         Message
       </h1>
       <div className="flex gap-10">
-        <form className="w-3/5 border border-gray-300 bg-white shadow rounded-lg h-fit flex flex-col gap-y-5 p-5">
+        <form onSubmit={sendMessage} className="w-3/5 border border-gray-300 bg-white shadow rounded-lg h-fit flex flex-col gap-y-5 p-5">
           <h3 className="text-xl font-semibold tracking-wide text-slate-800">
             Send Message
           </h3>
+          {success && <p className="bg-green-500 pl-2 rounded text-white py-1">{success}</p>}
+          {err && <p className="bg-red-500 pl-2 rounded text-white py-1">{err}</p>}
           <select
             className="p-2 border border-gray-300 rounded"
             onChange={handleChange}
@@ -56,6 +85,7 @@ function Dashboard() {
           <textarea
             className="p-2 border border-gray-300 rounded min-h-62"
             placeholder="Type your message here"
+            onChange={(e) => setMessage(e.target.value)}
           ></textarea>
           <button className="p-2 py-3 bg-slate-900 text-white rounded flex justify-center items-center gap-3">
             <Send />

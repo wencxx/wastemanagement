@@ -16,7 +16,7 @@ function Layout() {
             <Sidebar isCollapsed={isCollapsed} />
             <div className="w-full">
                 <header className="h-[8dvh] w-full flex items-center px-5">
-                    <PanelLeftClose onClick={() => setIsCollapsed((prev) => !prev)} />
+                    <PanelLeftClose onClick={() => setIsCollapsed((prev) => !prev)} className="cursor-pointer" />
                 </header>
                 <div className="h-[92dvh]">
                     <Outlet />
