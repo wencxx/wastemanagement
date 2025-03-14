@@ -53,7 +53,7 @@ function ResidentsLists({ selectedLoc }) {
   }, [selectedLoc]);
 
   return (
-    <div className="w-2/5 h-[80dvh] border border-gray-300 bg-white shadow rounded-lg p-5 flex flex-col gap-y-10">
+    <div className="w-full lg:w-2/5 h-[80dvh] border border-gray-300 bg-white shadow rounded-lg p-5 flex flex-col gap-y-10">
       <div className="flex justify-between items-center">
         <h3 className="text-xl font-semibold tracking-wide text-slate-800">
           Residents

@@ -38,12 +38,12 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="w-full h-full p-15 pt-0 space-y-10">
-      <h1 className="text-3xl font-bold tracking-wide text-slate-800">
+    <div className="w-full h-full p-5 !lg:p-15 pt-0 space-y-10 overflow-y-auto">
+      <h1 className="text-xl lg:text-3xl font-bold tracking-wide text-slate-800">
         Track Collection
       </h1>
-      <div className="flex gap-10">
-        <div className="w-3/5 border border-gray-300 bg-white shadow rounded-lg h-[80dvh] flex flex-col gap-y-8 p-5">
+      <div className="flex flex-col lg:flex-row gap-10">
+        <div className="w-full lg:w-3/5 border border-gray-300 bg-white shadow rounded-lg h-[80dvh] flex flex-col gap-y-8 p-5">
           <h3 className="text-xl font-semibold tracking-wide text-slate-800">
             Collection Map
           </h3>

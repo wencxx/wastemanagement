@@ -52,13 +52,13 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="w-full h-full p-15 pt-0 space-y-10">
-      <h1 className="text-3xl font-bold tracking-wide text-slate-800">
+    <div className="w-full h-full p-5 !lg:p-15 pt-0 space-y-10 overflow-y-auto">
+      <h1 className="text-xl lg:text-3xl font-bold tracking-wide text-slate-800">
         Resident Data
       </h1>
-      <div className="flex gap-10">
+      <div className="flex flex-col lg:flex-row gap-10">
         <form
-          className="w-3/5 border border-gray-300 bg-white shadow rounded-lg h-fit flex flex-col gap-y-5 p-5"
+          className="w-full lg:w-3/5 border border-gray-300 bg-white shadow rounded-lg h-fit flex flex-col gap-y-5 p-5"
           onSubmit={(e) => {
             e.preventDefault();
             addResident();

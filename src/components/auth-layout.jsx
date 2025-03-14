@@ -13,7 +13,7 @@ function Layout() {
 
     return ( 
         <div className="bg-gray-100 flex">
-            <Sidebar isCollapsed={isCollapsed} />
+            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
             <div className="w-full">
                 <header className="h-[8dvh] w-full flex items-center px-5">
                     <PanelLeftClose onClick={() => setIsCollapsed((prev) => !prev)} className="cursor-pointer" />

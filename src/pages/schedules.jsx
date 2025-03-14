@@ -50,21 +50,21 @@ function Dashboard() {
   })) : []
 
   return (
-    <div className="w-full h-full p-15 pt-0 space-y-10">
+    <div className="w-full h-full p-5 !lg:p-15 pt-0 space-y-10 overflow-y-auto">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-wide text-slate-800">
+        <h1 className="text-xl lg:text-3xl font-bold tracking-wide text-slate-800">
           Collection Schedule
         </h1>
         <button
-          className="flex gap-3 py-3 px-5 bg-slate-900 text-white font-medium rounded-lg items-center cursor-pointer"
+          className="flex gap-3 py-1 lg:py-3 px-2 lg:px-5 bg-slate-900 text-white font-medium rounded-lg items-center cursor-pointer"
           onClick={() => setAddSchedule(true)}
         >
           <Plus />
-          <span>Add Collection Schedule</span>
+          <span className="hidden lg:block">Add Collection Schedule</span>
         </button>
       </div>
-      <div className="flex gap-10">
-        <div className="w-2/5 h-[60dvh] border border-gray-300 bg-white shadow rounded-lg flex flex-col gap-y-5 p-5">
+      <div className="flex flex-col lg:flex-row gap-10">
+        <div className="w-full lg:w-2/5 h-[60dvh] border border-gray-300 bg-white shadow rounded-lg flex flex-col gap-y-5 p-5">
           <h1 className="font-bold text-lg">Calendar View</h1>
           <Calendar
             localizer={localizer}
@@ -78,7 +78,7 @@ function Dashboard() {
             toolbar={true}
           />
         </div>
-        <div className="w-3/5 h-fit border border-gray-300 bg-white shadow rounded-lg p-5 flex flex-col gap-y-10">
+        <div className="w-full lg:w-3/5 h-fit border border-gray-300 bg-white shadow rounded-lg p-5 flex flex-col gap-y-10">
           <h1 className="font-bold text-lg">Calendar View</h1>
           <Calendar
             localizer={localizer}

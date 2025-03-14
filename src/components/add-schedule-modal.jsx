@@ -69,8 +69,8 @@ function AddSchedule({ setAddSchedule, getSchedules }) {
   }
 
   return (
-    <div className="w-screen h-screen bg-black/15 fixed top-0 left-0 flex items-center justify-center z-[1000]">
-      <div className="bg-white p-10 w-full max-w-2xl space-y-5 rounded-lg border border-gray-300">
+    <div className="w-screen h-screen bg-black/15 fixed top-0 left-0 flex items-center justify-center z-[1000] p-5 lg:p-0">
+      <div className="bg-white p-5 lg:p-10 w-full max-w-2xl space-y-5 rounded-lg border border-gray-300">
         <h1 className="text-center text-xl font-medium">Schedule Cllection</h1>
         {emptyDate && (
           <p className="bg-red-500 text-white py-1 pl-2 rounded">
