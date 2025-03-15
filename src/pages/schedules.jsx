@@ -100,6 +100,7 @@ function Schedules() {
             views={{ month: true }}
             defaultView="month"
             toolbar={true}
+            min={new Date(1970, 1, 1, 6, 0, 0)}
           />
         </div>
         <div className="w-full lg:w-3/5 h-fit border border-gray-300 bg-white shadow rounded-lg p-5 flex flex-col gap-y-10">
@@ -114,10 +115,11 @@ function Schedules() {
             views={{ week: true }}
             defaultView="week"
             toolbar={true}
+            min={new Date(1970, 1, 1, 6, 0, 0)}
           />
           <div className="flex flex-col gap-y-5">
             <h3 className="text-lg capitalize font-medium">Schedule lists</h3>
-            {schedules.map((schedule) => (
+            {schedules.length && schedules?.map((schedule) => (
               <div key={schedule._id} className="flex justify-between items-center border-b pb-2">
                 <span>{schedule.title}</span>
                 <button

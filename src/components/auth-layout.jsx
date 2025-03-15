@@ -1,8 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 import Sidebar from "./sidebar";
 import { useState } from "react";
-import { PanelLeftClose } from "lucide-react";
-
+import { AlignJustify } from "lucide-react";
 function Layout() {
   const isAuthenticated = !!localStorage.getItem("token");
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -22,7 +21,7 @@ function Layout() {
       <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <div className="w-full">
         <header className="h-[8dvh] w-full flex items-center px-5">
-          <PanelLeftClose
+          <AlignJustify
             onClick={() => setIsCollapsed((prev) => !prev)}
             className="cursor-pointer"
           />

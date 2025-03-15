@@ -9,33 +9,38 @@ function DataLists() {
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
   const [puroks, setPuroks] = useState([]);
+  const [adding, setAdding] = useState(false)
+  const [mess, setMess] = useState('')
 
   const addResident = async () => {
     const residentData = { name, phone, location };
     try {
+      setAdding(true)
       const response = await axios.post(
-        `${connection()}/api/residents`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(residentData),
-        }
-      );
+        `${connection()}/api/residents`, residentData);
+      // console.log(response.data)
       if (response.data === 'Added new resident') {
         console.log("Resident added successfully");
+        setMess('Resident added successfully')
       } else {
         console.error("Failed to add resident");
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setAdding(false)
+      setName('')
+      setPhone('')
+      setLocation('')
+      setTimeout(() => {
+        setMess('')
+      }, 3000)
     }
   };
 
   const getPuroks = async (e) => {
     try {
       const response = await axios.get(`${connection()}/api/purok`);
-      console.log("Puroks response:", response.data); 
       if (Array.isArray(response.data)) {
         setPuroks(response.data);
       } else {
@@ -67,6 +72,7 @@ function DataLists() {
           <h3 className="text-xl font-semibold tracking-wide text-slate-800">
             Add New Resident
           </h3>
+          {mess && ( <p className="bg-green-500 text-white rounded pl-2 py-1">{mess}</p> )}
           <div className="flex flex-col gap-y-1">
             <label className="font-medium" htmlFor="name">
               Name
@@ -108,11 +114,12 @@ function DataLists() {
             </select>
           </div>
           <button
-            className="p-2 py-3 bg-slate-900 text-white rounded flex justify-center items-center gap-3"
+            className={`p-2 py-3 bg-slate-900 text-white rounded flex justify-center items-center gap-3 ${adding && 'animate-pulse'}`}
             type="submit"
+            disabled={adding}
           >
             <Send />
-            <span>Add Resident</span>
+            <span>{adding ? 'Adding resident' : 'Add Resident'}</span>
           </button>
         </form>
         <ResidentsLists />

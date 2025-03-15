@@ -40,14 +40,28 @@ function AddSchedule({ setAddSchedule, getSchedules }) {
     if (start && end && selectedLocation && selectedType) {
       setEmptyDate(false);
       try {
-        const res = await axios.post(`${connection()}/api/schedules`, {
+        // Check for duplicate schedule
+        const res = await axios.get(`${connection()}/api/schedules`, {
+          params: {
+            purokID: selectedLocation,
+            start,
+            end,
+          },
+        });
+
+        if (res.data.length > 0) {
+          alert("A schedule already exists for the selected time and purok.");
+          return;
+        }
+
+        const response = await axios.post(`${connection()}/api/schedules`, {
           purokID: selectedLocation,
           start: selectedSlot.start,
           end: selectedSlot.end,
           title: selectedType,
         });
 
-        if (res.data === "Scheduled a collection") {
+        if (response.data === "Scheduled a collection") {
           setAddSchedule(false);
           getSchedules();
         }
@@ -85,6 +99,7 @@ function AddSchedule({ setAddSchedule, getSchedules }) {
           views={["week", "day"]}
           defaultView="week"
           style={{ height: 400 }}
+          min={new Date(1970, 1, 1, 6, 0, 0)}
           events={
             selectedSlot.start && selectedSlot.end
               ? [{ ...selectedSlot, title: "New Schedule" }]
