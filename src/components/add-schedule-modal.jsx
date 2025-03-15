@@ -10,8 +10,8 @@ const localizer = momentLocalizer(moment);
 function AddSchedule({ setAddSchedule, getSchedules }) {
   const [selectedSlot, setSelectedSlot] = useState({ start: null, end: null });
   const [puroks, setPuroks] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState('');
-  const [selectedType, setSelectedType] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedType, setSelectedType] = useState("");
   const [emptyDate, setEmptyDate] = useState(false);
 
   const getPuroks = async (e) => {
@@ -41,19 +41,18 @@ function AddSchedule({ setAddSchedule, getSchedules }) {
       setEmptyDate(false);
       try {
         const res = await axios.post(`${connection()}/api/schedules`, {
-            purokID: selectedLocation,
-            start: selectedSlot.start,
-            end: selectedSlot.end,
-            title: selectedType
-        })
+          purokID: selectedLocation,
+          start: selectedSlot.start,
+          end: selectedSlot.end,
+          title: selectedType,
+        });
 
-        if(res.data === 'Scheduled a collection') {
-            setAddSchedule(false)
-            getSchedules()
+        if (res.data === "Scheduled a collection") {
+          setAddSchedule(false);
+          getSchedules();
         }
-
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     } else {
       setEmptyDate(true);
@@ -61,20 +60,20 @@ function AddSchedule({ setAddSchedule, getSchedules }) {
   };
 
   const handPurokChange = (e) => {
-    setSelectedLocation(e.target.value)
-  }
+    setSelectedLocation(e.target.value);
+  };
 
   const handleTypeChange = (e) => {
-    setSelectedType(e.target.value)
-  }
+    setSelectedType(e.target.value);
+  };
 
   return (
-    <div className="w-screen h-screen bg-black/15 fixed top-0 left-0 flex items-center justify-center z-[1000] p-5 lg:p-0">
-      <div className="bg-white p-5 lg:p-10 w-full max-w-2xl space-y-5 rounded-lg border border-gray-300">
-        <h1 className="text-center text-xl font-medium">Schedule Cllection</h1>
+    <div className="w-screen h-screen bg-black/15 fixed top-0 left-0 flex items-center justify-center z-[1000] p-4 sm:p-10 lg:p-0">
+      <div className="bg-white p-5 lg:p-10 w-full max-w-lg sm:max-w-xl lg:max-w-2xl h-fit max-h-[90vh] space-y-5 rounded-lg border border-gray-300 overflow-y-auto">
+        <h1 className="text-center text-xl font-medium">Schedule Collection</h1>
         {emptyDate && (
           <p className="bg-red-500 text-white py-1 pl-2 rounded">
-            Please select all required field
+            Please select all required fields
           </p>
         )}
         <Calendar
@@ -85,42 +84,61 @@ function AddSchedule({ setAddSchedule, getSchedules }) {
           endAccessor="end"
           views={["week", "day"]}
           defaultView="week"
-          style={{ height: 500 }}
+          style={{ height: 400 }}
+          events={
+            selectedSlot.start && selectedSlot.end
+              ? [{ ...selectedSlot, title: "New Schedule" }]
+              : []
+          }
+          eventPropGetter={() => ({
+            style: {
+              width: "100%",
+              minWidth: "100%",
+              maxWidth: "100%",
+              margin: "0",
+            },
+          })}
         />
-        <div className="w-full flex items-center gap-x-2">
-            <select className="border border-gray-200 pl-2 rounded w-1/2 h-10 bg-gray-50" value={selectedLocation} onChange={handPurokChange}>
-              <option value="" disabled>
-                Select Purok
+        <div className="w-full flex flex-col sm:flex-row items-center gap-y-2 sm:gap-x-2">
+          <select
+            className="border border-gray-200 pl-2 rounded w-full sm:w-1/2 h-10 bg-gray-50"
+            value={selectedLocation}
+            onChange={handPurokChange}
+          >
+            <option value="" disabled>
+              Select Purok
+            </option>
+            {puroks.map((purok, index) => (
+              <option value={purok._id} key={index}>
+                {purok.name}
               </option>
-              {puroks.map((purok, index) => (
-                <option value={purok._id} key={index}>{purok.name}</option>
-              ))}
-            </select>
-            <select className="border border-gray-200 pl-2 rounded w-1/2 h-10 bg-gray-50" value={selectedType} onChange={handleTypeChange}>
-              <option value="" disabled>
-                Select Type
-              </option>
-              <option>
-                No Collection
-              </option>
-              <option>
-                Trash Collection
-              </option>
-            </select>
+            ))}
+          </select>
+          <select
+            className="border border-gray-200 pl-2 rounded w-full sm:w-1/2 h-10 bg-gray-50"
+            value={selectedType}
+            onChange={handleTypeChange}
+          >
+            <option value="" disabled>
+              Select Type
+            </option>
+            <option>No Collection</option>
+            <option>Trash Collection</option>
+          </select>
         </div>
-        <div className="flex justify-end items-center gap-x-3">
-            <button
-              onClick={() => setAddSchedule(false)}
-              className="text-slate-800 rounded px-3 py-2 cursor-pointer"
-            >
-              close
-            </button>
-            <button
-              onClick={addSchedule}
-              className="bg-slate-800 text-white rounded px-3 py-2 cursor-pointer"
-            >
-              Schedule Collection
-            </button>
+        <div className="flex justify-end items-center gap-x-3 border-t pt-3">
+          <button
+            onClick={() => setAddSchedule(false)}
+            className="text-slate-800 rounded px-3 py-2 cursor-pointer"
+          >
+            Close
+          </button>
+          <button
+            onClick={addSchedule}
+            className="bg-slate-800 text-white rounded px-3 py-2 cursor-pointer"
+          >
+            Schedule Collection
+          </button>
         </div>
       </div>
     </div>

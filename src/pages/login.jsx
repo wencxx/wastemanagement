@@ -88,9 +88,6 @@ function Login() {
         >
           {logginIn ? 'Logging in...' : 'Login'}
         </button>
-        <Link to="" className="hover:underline">
-          Forgot password?
-        </Link>
       </form>
     </div>
   );

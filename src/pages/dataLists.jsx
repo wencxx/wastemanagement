@@ -4,7 +4,7 @@ import ResidentsLists from "../components/residents-lists";
 import { connection } from "../config/getConnection";
 import axios from "axios";
 
-function Dashboard() {
+function DataLists() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
@@ -121,4 +121,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DataLists;

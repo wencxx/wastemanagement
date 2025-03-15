@@ -22,7 +22,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
 
     return ( 
         <>
-            <div className={`h-screen w-0 lg:w-80 bg-white border border-gray-200  overflow-hidden duration-300 hidden lg:block lg:${isCollapsed && '!w-0'}`}>
+            <div className={`h-screen w-80 bg-white border border-gray-200 overflow-hidden duration-300 hidden lg:block ${isCollapsed && '!w-0'}`}>
                 <div className="h-[9dvh] border-b border-gray-200 flex items-center px-5">
                     <h1 className={`font-bold text-xl text-neutral-600`}>Waste Management</h1>
                 </div>
@@ -37,6 +37,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
                         <NavItem to='/admin/track' icon={MapPin} label='Track' />
                         <NavItem to='/admin/data-lists' icon={Users} label='Data Lists' />
                         <NavItem to='/admin/purok-lists' icon={MapPinned} label='Purok Lists' />
+                        <NavItem to='/admin/user-lists' icon={Users} label='Users Lists' />
                     </ul>
                 </div>
                 <div className='flex items-center justify-center text-red-500 h-[8dvh]'>
@@ -62,6 +63,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
                         <NavItem to='/admin/track' icon={MapPin} label='Track' />
                         <NavItem to='/admin/data-lists' icon={Users} label='Data Lists' />
                         <NavItem to='/admin/purok-lists' icon={MapPinned} label='Purok Lists' />
+                        <NavItem to='/admin/user-lists' icon={MapPinned} label='Users Lists' />
                     </ul>
                 </div>
                 <div className='flex items-center justify-center text-red-500 h-[8dvh]'>

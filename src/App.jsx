@@ -6,6 +6,7 @@ import Schedules from "./pages/schedules"
 import DataLists from "./pages/dataLists"
 import PurokLists from './pages/purokLists'
 import Track from "./pages/track"
+import UserLists from './pages/usersLists'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="track" element={<Track />} />
             <Route path="data-lists" element={<DataLists />} />
             <Route path="purok-lists" element={<PurokLists />} />
+            <Route path="user-lists" element={<UserLists />} />
           </Route>
         </Routes>
       </Router>

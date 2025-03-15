@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import AddSchedule from "../components/add-schedule-modal";
 import moment from "moment";
@@ -9,9 +9,11 @@ import { connection } from "../config/getConnection";
 
 const localizer = momentLocalizer(moment);
 
-function Dashboard() {
+function Schedules() {
   const [addSchedule, setAddSchedule] = useState(false);
   const [schedules, setSchedules] = useState([]);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [scheduleToDelete, setScheduleToDelete] = useState(null);
 
   const eventStyleGetter = (event) => {
     const backgroundColor = event.color || "#3174ad";
@@ -37,7 +39,29 @@ function Dashboard() {
       console.error("Error: ", error);
     }
   };
-  
+
+  const deleteSchedule = async (id) => {
+    try {
+      await axios.delete(`${connection()}/api/schedules/${id}`);
+      setSchedules(schedules.filter(schedule => schedule._id !== id));
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
+
+  const handleDelete = (id) => {
+    setScheduleToDelete(id);
+    setDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    if (scheduleToDelete) {
+      deleteSchedule(scheduleToDelete);
+      setDeleteConfirm(false);
+      setScheduleToDelete(null);
+    }
+  };
+
   useEffect(() => {
     getSchedules();
   }, []);
@@ -91,11 +115,47 @@ function Dashboard() {
             defaultView="week"
             toolbar={true}
           />
+          <div className="flex flex-col gap-y-5">
+            <h3 className="text-lg capitalize font-medium">Schedule lists</h3>
+            {schedules.map((schedule) => (
+              <div key={schedule._id} className="flex justify-between items-center border-b pb-2">
+                <span>{schedule.title}</span>
+                <button
+                  className="text-red-500"
+                  onClick={() => handleDelete(schedule._id)}
+                >
+                  <Trash />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       {addSchedule && <AddSchedule setAddSchedule={setAddSchedule} getSchedules={getSchedules} />}
+      {deleteConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/25 bg-opacity-50 z-[1000]">
+          <div className="bg-white p-5 rounded-lg shadow-lg">
+            <h2 className="text-lg font-bold mb-4">Confirm Delete</h2>
+            <p>Are you sure you want to delete this schedule?</p>
+            <div className="flex justify-end gap-3 mt-4">
+              <button
+                className="bg-gray-300 text-black px-4 py-2 rounded"
+                onClick={() => setDeleteConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded"
+                onClick={confirmDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-export default Dashboard;
+export default Schedules;
