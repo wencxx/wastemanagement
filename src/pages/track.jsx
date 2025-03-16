@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import ResidentsLists from "../components/residents-lists";
 import { connection } from "../config/getConnection";
+import moment from 'moment'
 
 function Dashboard() {
   const [currentLocation, setCurrentLocation] = useState({
@@ -14,7 +14,7 @@ function Dashboard() {
     lat: "",
     lng: "",
   });
-
+  const [todaysSchedules, setTodaysSchedules] = useState([]);
 
   const getLocation = async () => {
     try {
@@ -28,8 +28,18 @@ function Dashboard() {
     }
   };
 
+  const getTodaysSchedules = async () => {
+    try {
+      const res = await axios.get(`${connection()}/api/todays-schedules`);
+      setTodaysSchedules(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    getTodaysSchedules();
+
     const intervalId = setInterval(() => {
       getLocation();
     }, 1000);
@@ -52,7 +62,7 @@ function Dashboard() {
               center={[currentLocation.lat, currentLocation.lng]}
               zoom={20}
               style={{ height: "100%", width: "100%" }}
-              key={`${currentLocation.lat}-${currentLocation.lng}`} 
+              key={`${currentLocation.lat}-${currentLocation.lng}`}
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Marker position={[currentMarker.lat, currentMarker.lng]}>
@@ -64,8 +74,35 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Residents List Section */}
-        <ResidentsLists />
+        {/* todays schedule */}
+        <div className="w-full lg:w-2/5 h-[80dvh] border border-gray-300 bg-white shadow rounded-lg p-5 flex flex-col gap-y-10">
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-semibold tracking-wide text-slate-800">
+              Today Schedules
+            </h3>
+          </div>
+          <div className="space-y-2">
+            {todaysSchedules.length ? (
+              todaysSchedules.map((schedule) => (
+                <div key={schedule._id} className="flex justify-between items-center border border-gray-300 p-2 rounded">
+                  <div>
+                    <h4 className="font-semibold text-slate-800">
+                      {schedule.purokName}
+                    </h4>
+                    <p className="text-gray-400">
+                      {moment(schedule.start).format('LLL')} - {moment(schedule.end).format('LLL')}
+                    </p>
+                    <p className="text-gray-400">
+                      Status: {schedule.title}
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">No schedules for today</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
