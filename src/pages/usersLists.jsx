@@ -10,6 +10,7 @@ function UserLists() {
   const [users, setUsers] = useState([]);
   const [deleting, setDeleting] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [showAddConfirm, setShowAddConfirm] = useState(false);
 
   const addUser = async () => {
     const userData = { name, username, password };
@@ -36,6 +37,7 @@ function UserLists() {
       setName("");
       setUsername("");
       setPassword("");
+      setShowAddConfirm(false);
     }
   };
 
@@ -83,7 +85,7 @@ function UserLists() {
           className="w-full lg:w-3/5 border border-gray-300 bg-white shadow rounded-lg h-fit flex flex-col gap-y-5 p-5"
           onSubmit={(e) => {
             e.preventDefault();
-            addUser();
+            setShowAddConfirm(true);
           }}
         >
           <h3 className="text-xl font-semibold tracking-wide text-slate-800">
@@ -187,6 +189,29 @@ function UserLists() {
                 disabled={deleting}
               >
                 {deleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showAddConfirm && (
+        <div className="fixed inset-0 bg-black/25 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-5 rounded shadow-lg">
+            <h3 className="text-xl font-semibold mb-4">Confirm Add</h3>
+            <p>Are you sure you want to add this user?</p>
+            <div className="flex justify-end gap-3 mt-4">
+              <button
+                className="bg-gray-300 px-4 py-2 rounded"
+                onClick={() => setShowAddConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-green-500 text-white px-4 py-2 rounded"
+                onClick={addUser}
+                disabled={adding}
+              >
+                {adding ? "Adding..." : "Add"}
               </button>
             </div>
           </div>

@@ -9,6 +9,7 @@ function Dashboard() {
   const [lng, setLng] = useState("");
   const [adding, setAdding] = useState(false);
   const [mess, setMess] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const addPurok = async () => {
     const purokData = { name, lat, lng };
@@ -40,6 +41,15 @@ function Dashboard() {
     }
   };
 
+  const handleAddPurok = () => {
+    setShowModal(true);
+  };
+
+  const confirmAddPurok = () => {
+    setShowModal(false);
+    addPurok();
+  };
+
   return (
     <div className="w-full h-full p-5 !lg:p-15 pt-0 space-y-10 overflow-y-auto">
       <h1 className="text-xl lg:text-3xl font-bold tracking-wide text-slate-800">
@@ -50,7 +60,7 @@ function Dashboard() {
           className="w-full lg:w-3/5 border border-gray-300 bg-white shadow rounded-lg h-fit flex flex-col gap-y-5 p-5"
           onSubmit={(e) => {
             e.preventDefault();
-            addPurok();
+            handleAddPurok();
           }}
         >
           <h3 className="text-xl font-semibold tracking-wide text-slate-800">
@@ -110,6 +120,28 @@ function Dashboard() {
         </form>
         <PurokLists />
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/25 bg-opacity-50">
+          <div className="bg-white p-5 rounded shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">Confirm Add Purok</h2>
+            <p>Are you sure you want to add this Purok?</p>
+            <div className="flex justify-end gap-3 mt-4">
+              <button
+                className="bg-gray-300 text-black px-4 py-2 rounded"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={confirmAddPurok}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -126,7 +126,7 @@ function ResidentsLists({ selectedLoc }) {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/25 bg-opacity-50">
           <div className="bg-white p-5 rounded shadow-lg">
             <h3 className="text-xl mb-4">Confirm Delete</h3>
             <p>Are you sure you want to delete {residentToDelete.name}?</p>

@@ -3,5 +3,5 @@ export const connection = () => {
 
     const live = 'https://wastemanagement-server.vercel.app'
 
-    return live
+    return localhost
 }
