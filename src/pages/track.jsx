@@ -3,7 +3,22 @@ import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { connection } from "../config/getConnection";
-import moment from 'moment'
+import moment from 'moment';
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+// Define custom marker icon
+const customIcon = new L.Icon({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
 function Dashboard() {
   const [currentLocation, setCurrentLocation] = useState({
@@ -23,7 +38,7 @@ function Dashboard() {
         setCurrentLocation({ ...res.data });
         setCurrentMarker({ ...res.data });
       }
-    } catch (error) {
+    } catch (error) { 
       console.log(error);
     }
   };
@@ -65,7 +80,7 @@ function Dashboard() {
               key={`${currentLocation.lat}-${currentLocation.lng}`}
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={[currentMarker.lat, currentMarker.lng]}>
+              <Marker position={[currentMarker.lat, currentMarker.lng]} icon={customIcon}>
                 <Popup>
                   Current Location: {currentMarker.lat}, {currentMarker.lng}
                 </Popup>
